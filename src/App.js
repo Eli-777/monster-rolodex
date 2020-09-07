@@ -31,7 +31,8 @@ export default class App extends React.Component {
   constructor(){
     super()
     this.state = {
-      monsters:[]
+      monsters:[],
+      searchField: ''
     }
   }
 
@@ -42,10 +43,17 @@ export default class App extends React.Component {
   }
 
   render() {
+    const {monsters, searchField} = this.state
+    const filteredMonsters = monsters.filter(monster => {
+      return monster.name.toLowerCase().includes(searchField.toLowerCase())
+    })
+
     return (
       <div className="App">
-        <CardList monsters={this.state.monsters}/>
-
+        <input type='search' placeholder='search monster' onChange={e=> {
+          this.setState({ searchField: e.target.value },()=>console.log(this.state.searchField))
+        }}></input>
+        <CardList monsters={filteredMonsters}/>
       </div>
     )
   }
